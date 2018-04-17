@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="input">
+  <button id="btn">发送</button>
+  <div id="output"></div>
+  <script type="text/javascript">
+    var input = document.getElementById('input');
+    var output = document.getElementById('output');
+    var btn = document.getElementById('btn');
+
+    if (window.SharedWorker) {
+      var worker = new SharedWorker('worker.js');
+
+      btn.onclick = function () {
+        var val = input.value;
+        worker.port.postMessage(val);
+      }
+
+      worker.port.onmessage = function (e) {
+        var result = e.data;
+        console.log(result)
+        output.innerText = result;
+      }
+    }
+  </script>
+</body>
+
+</html>
